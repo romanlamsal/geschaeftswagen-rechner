@@ -29,6 +29,7 @@ export type GeschaeftswagenBreakdown = {
   geldwerterVorteil: number
   agSozialAufGV: number
   total: number
+  arbeitnehmer: number
 }
 
 export function geschaeftswagenCost(state: GlobalState): GeschaeftswagenBreakdown {
@@ -46,6 +47,7 @@ export function geschaeftswagenCost(state: GlobalState): GeschaeftswagenBreakdow
 
   const geldwerterVorteil = gV1Prozent + gVPendel
   const agSozialAufGV = geldwerterVorteil * state.payroll.employerContributionRate
+  const arbeitnehmer = geldwerterVorteil * (1 - state.payroll.netGrossRatio)
 
   return {
     leasing,
@@ -55,6 +57,7 @@ export function geschaeftswagenCost(state: GlobalState): GeschaeftswagenBreakdow
     geldwerterVorteil,
     agSozialAufGV,
     total: leasing + insurance + agSozialAufGV,
+    arbeitnehmer,
   }
 }
 
@@ -65,6 +68,7 @@ export type PrivatBreakdown = {
   grossUp: number
   agAnteil: number
   total: number
+  arbeitnehmer: number
 }
 
 export function privatCost(state: GlobalState): PrivatBreakdown {
@@ -80,6 +84,7 @@ export function privatCost(state: GlobalState): PrivatBreakdown {
     grossUp,
     agAnteil,
     total: grossUp + agAnteil,
+    arbeitnehmer: leasing + insurance,
   }
 }
 

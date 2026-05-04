@@ -192,6 +192,13 @@ const agPercent = {
                 <span>Kosten Arbeitgeber {periodSuffix}</span>
                 <span>{formatEur(gw.total * periodFactor)}</span>
             </div>
+            <div class="flex justify-between text-lg font-semibold">
+                <span>Kosten Arbeitnehmer {periodSuffix}</span>
+                <span>{formatEur(gw.arbeitnehmer * periodFactor)}</span>
+            </div>
+            <p class="text-xs text-muted-foreground -mt-2">
+                Steuer/Sozialabgaben des Mitarbeiters auf den geldwerten Vorteil
+            </p>
         </section>
 
         <section class="space-y-4 rounded-2xl border p-6">
@@ -228,6 +235,13 @@ const agPercent = {
                 <span>Kosten Arbeitgeber {periodSuffix}</span>
                 <span>{formatEur(pr.total * periodFactor)}</span>
             </div>
+            <div class="flex justify-between text-lg font-semibold">
+                <span>Kosten Arbeitnehmer {periodSuffix}</span>
+                <span>{formatEur(pr.arbeitnehmer * periodFactor)}</span>
+            </div>
+            <p class="text-xs text-muted-foreground -mt-2">
+                Leasing (Brutto) + Versicherung, gezahlt aus Netto
+            </p>
         </section>
     </div>
 
