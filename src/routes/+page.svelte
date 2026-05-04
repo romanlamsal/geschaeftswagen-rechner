@@ -137,15 +137,37 @@ const agPercent = {
             <div class="space-y-2">
                 <Label>Methode Pendelweg</Label>
                 <RadioGroup bind:value={globalState.geschaeftswagen.commuteMethod}>
-                    <div class="flex items-center gap-2">
-                        <RadioGroupItem value="pauschal" id="commute-pauschal" />
-                        <Label for="commute-pauschal">Pauschal (0,03% × km × Listenpreis / Monat)</Label>
+                    <div class="flex items-start gap-2">
+                        <RadioGroupItem value="einzelbewertung" id="commute-einzel" class="mt-1" />
+                        <div class="space-y-1">
+                            <Label for="commute-einzel">Einzelbewertung (0,002 % × km × Tage × Listenpreis)</Label>
+                            <p class="text-xs text-muted-foreground">
+                                Du zahlst nur für tatsächlich gefahrene Pendeltage — bei Home-Office / seltenen
+                                Büro-Besuchen deutlich günstiger. Cap: max. 180 Pendeltage/Jahr.
+                            </p>
+                            <p class="text-xs text-muted-foreground">
+                                <strong class="text-foreground">Fahrtagsliste ≠ Fahrtenbuch.</strong> Du musst dem
+                                Arbeitgeber monatlich nur die <em>Daten der Pendeltage</em> geben — keine Strecken,
+                                keine km-Stände, kein Zweck. Das volle Fahrtenbuch wäre eine ganz andere Liga
+                                (Alternative zur 1%-Regelung; jede einzelne Fahrt lückenlos).
+                            </p>
+                        </div>
                     </div>
-                    <div class="flex items-center gap-2">
-                        <RadioGroupItem value="einzelbewertung" id="commute-einzel" />
-                        <Label for="commute-einzel">Einzelbewertung (0,002% × km × Tage × Listenpreis)</Label>
+                    <div class="flex items-start gap-2">
+                        <RadioGroupItem value="pauschal" id="commute-pauschal" class="mt-1" />
+                        <div class="space-y-1">
+                            <Label for="commute-pauschal">Pauschal (0,03 % × km × Listenpreis / Monat)</Label>
+                            <p class="text-xs text-muted-foreground">
+                                Default-Methode. Wird jeden Monat fix berechnet — egal ob du tatsächlich zur Arbeit
+                                gefahren bist oder nicht. Kein Aufwand, keine Listen. Sinnvoll wenn du regelmäßig
+                                pendelst (≥ 15 Tage/Monat im Schnitt).
+                            </p>
+                        </div>
                     </div>
                 </RadioGroup>
+                <p class="text-xs text-muted-foreground">
+                    Methode gilt einheitlich fürs ganze Kalenderjahr und für jedes Fahrzeug — kein Mid-Year-Switch.
+                </p>
             </div>
 
             {#if globalState.geschaeftswagen.commuteMethod === "einzelbewertung"}
@@ -155,9 +177,14 @@ const agPercent = {
                         id="commute-days"
                         type="number"
                         min="0"
-                        max="15"
                         bind:value={globalState.geschaeftswagen.commuteDaysPerMonth}
                     />
+                    {#if globalState.geschaeftswagen.commuteDaysPerMonth > 15}
+                        <p class="text-xs text-destructive">
+                            Über 180 Fahrten/Jahr ist die Einzelbewertung steuerlich nicht zulässig
+                            (Durchschnitt > 15/Monat). Du müsstest auf 0,03 % pauschal wechseln.
+                        </p>
+                    {/if}
                 </div>
             {/if}
 
